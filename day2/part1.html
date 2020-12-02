@@ -1,0 +1,52 @@
+<html>
+<head>
+<link rel="stylesheet" href="../fancy.css">
+<script type="text/javascript">
+
+  var countValid = 0;
+
+  // Let's see how long this takes
+  console.time('Function #1');
+  function theBreaks(data) {
+    for (var i = 0; i < data.length-1; i++) {
+      var firstSplit = data[i].split("-");
+      var secondSplit = firstSplit[1].split(" ");
+      var thirdSplit = secondSplit[1].split(":");
+      var theReg = new RegExp(thirdSplit[0], 'g');
+      var theCount = secondSplit[2].match(theReg);
+      if (theCount != null) {
+        if (
+          theCount.length >= firstSplit[0]
+          &&
+          theCount.length <= secondSplit[0]
+        ) {
+          countValid++;
+        }
+      }
+    }
+    console.log(countValid);
+    document.getElementById("theAnswer").innerHTML = countValid;
+  }
+
+  var request = new XMLHttpRequest();
+  request.open('GET', 'day2.txt', true);
+  request.onload = function() {
+    if (this.status >= 200 && this.status < 400) {
+      var resp = this.response.split('\n');
+      theBreaks(resp);
+    }
+  };
+  request.send();
+  console.timeEnd('Function #1');
+
+</script>
+</head>
+<body>
+
+<div id="theMeat">
+<p id="theParts"></p>
+<p id="theAnswer"></p>
+</div>
+
+</body>
+</html>
